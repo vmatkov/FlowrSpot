@@ -7,7 +7,16 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, ToolbarAndroid, View} from 'react-native';
+import Toolbar from './lib/Toolbar';
+import { getColor } from './lib/helpers';
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  StatusBar,
+  ToolbarAndroid,
+  View
+} from 'react-native';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -22,10 +31,16 @@ export default class App extends Component<Props> {
     return (
       <View style={styles.container}>
         <ToolbarAndroid
-        //logo={require('./app_logo.png')}
-        title="AwesomeApp"
-        actions={[{title: 'Settings', /*icon: require('./icon_settings.png'),*/ show: 'always'}]}
-        onActionSelected={this.onActionSelected} />
+            style={styles.toolbar}
+            title="FlowrSpot"
+            navIcon={require("./android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png")}
+            onActionSelected={this.onActionSelected}
+            titleColor= "#e09186"
+            actions = {[
+              {title: "About", show: "never"}
+            ]}
+            />
+        <StatusBar backgroundColor="#e09186" animated={true} />
         <Text style={styles.welcome}>Welcome to React Native!</Text>
         <Text style={styles.instructions}>To get started, edit App.js</Text>
         <Text style={styles.instructions}>{instructions}</Text>
@@ -42,8 +57,8 @@ export default class App extends Component<Props> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    //justifyContent: 'center',
+    alignItems: 'stretch',
     backgroundColor: '#F5FCFF',
   },
   welcome: {
@@ -55,5 +70,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5,
+  },
+  toolbar: {
+    backgroundColor: '#ffffff',
+    height: 56,
+    alignSelf: 'stretch',
   },
 });
