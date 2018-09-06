@@ -17,7 +17,7 @@ import {
   View,
   ActivityIndicator,
 } from 'react-native';
-import { SearchBar } from 'react-native-elements';
+import { Header, SearchBar, Card } from 'react-native-elements';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -68,14 +68,14 @@ export default class App extends Component<Props> {
     {
       return (
         <ImageBackground
-          source={require('image!pl_hero.png')}
+          source={{uri: 'pl_hero'}}
           style={styles.container}>
           <View style={styles.view_container}>
             <StatusBar backgroundColor="#e09186" animated={true} />
             <ToolbarAndroid
                 style={styles.toolbar}
                 title="FlowrSpot"
-                navIcon={require('image!pl_flowr.png')}
+                navIcon={{uri: 'pl_flowr'}}
                 //onActionSelected={this.onActionSelected}
                 titleColor= "#e09186"
                 actions = {[
