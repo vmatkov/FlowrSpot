@@ -38,9 +38,8 @@ export default class App extends Component<Props> {
   }
 
   componentDidMount(){
-
+    
     let req = new Request('http://flowrspot-api.herokuapp.com/api/v1/flowers');
-
     return fetch(req)
       .then( (response) => response.json() )
       .then( (responseJson) => {
@@ -69,14 +68,14 @@ export default class App extends Component<Props> {
     {
       return (
         <ImageBackground
-          source={require('./Images/pl_hero_2018-08-30/drawable-mdpi/pl_hero.png')}
+          source={require('image!pl_hero.png')}
           style={styles.container}>
           <View style={styles.view_container}>
             <StatusBar backgroundColor="#e09186" animated={true} />
             <ToolbarAndroid
                 style={styles.toolbar}
                 title="FlowrSpot"
-                navIcon={require("./Images/flowr.png")}
+                navIcon={require('image!pl_flowr.png')}
                 //onActionSelected={this.onActionSelected}
                 titleColor= "#e09186"
                 actions = {[
@@ -107,8 +106,8 @@ export default class App extends Component<Props> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: '60%',
-    width: '100%',
+    width: 360,
+    height: 315,
     justifyContent: 'center'
     //alignItems: 'stretch',
     //backgroundColor: '#F5FCFF',
