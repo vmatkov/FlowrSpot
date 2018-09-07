@@ -16,6 +16,7 @@ import {
   ImageBackground,
   View,
   ActivityIndicator,
+  FlatList
 } from 'react-native';
 import { Header, SearchBar, Card } from 'react-native-elements';
 
@@ -67,21 +68,21 @@ export default class App extends Component<Props> {
     else
     {
       return (
-        <ImageBackground
-          source={{uri: 'pl_hero'}}
-          style={styles.container}>
-          <View style={styles.view_container}>
-            <StatusBar backgroundColor="#e09186" animated={true} />
-            <ToolbarAndroid
-                style={styles.toolbar}
-                title="FlowrSpot"
-                navIcon={{uri: 'pl_flowr'}}
-                //onActionSelected={this.onActionSelected}
-                titleColor= "#e09186"
-                actions = {[
-                  {title: "About", show: "never"}
-                ]}
-                />
+        <View style={styles.container}>
+          <StatusBar backgroundColor="#e09186" animated={true} />
+          <ToolbarAndroid
+            style={styles.toolbar}
+              title="FlowrSpot"
+              navIcon={{uri: 'pl_flowr'}}
+              //onActionSelected={this.onActionSelected}
+              titleColor= "#e09186"
+              actions = {[
+                {title: "About", show: "never"}
+              ]}
+          />
+          <ImageBackground
+            source={{uri: 'pl_hero'}}
+            style={styles.imageContainer}>
             <Text style={styles.welcome}>Discover flowers around you</Text>
             <Text style={styles.instructions}>Explore between more than 8.427 sightings</Text>
             <SearchBar
@@ -89,8 +90,17 @@ export default class App extends Component<Props> {
                 style={styles.searchbar}              
                 icon={{ type: 'FontAwesome', name: 'search' }}
                 placeholder='Looking for something specific?' />
+          </ImageBackground>
+          <View style={styles.boxContainer}>
+            <FlatList
+              data={this.state.dataSource}
+              renderItem={
+                ({item}) => <Text style={styles.item}>{item.name}, {item.latin_name}, {item.sightings}</Text>
+              }
+              keyExtractor={(item, index) => index}
+              />
           </View>
-        </ImageBackground>
+        </View>
       );
     }
   }
@@ -104,41 +114,51 @@ export default class App extends Component<Props> {
 }
 
 const styles = StyleSheet.create({
+  toolbar: {
+    backgroundColor: '#ffffff',
+    height: 45,
+    alignSelf: 'stretch'
+  },
   container: {
     flex: 1,
-    width: 360,
-    height: 315,
-    justifyContent: 'center'
-    //alignItems: 'stretch',
-    //backgroundColor: '#F5FCFF',
+    flexDirection: "column"
   },
-  view_container: {
+  imageContainer: {
     flex: 1,
-    alignItems: 'stretch',
+    //width: 360,
+    //height: 315,
+    //justifyContent: 'space-around'
   },
   welcome: {
     fontFamily: 'Ubuntu-Regular',
     fontSize: 24,
     textAlign: 'center',
     color: '#ffffff',
-    margin: 55
+    marginTop: 61,
+    marginLeft: 56,
+    marginRight: 57
   },
   instructions: {
     fontFamily: 'Ubuntu-Regular',
     fontSize: 15,
     textAlign: 'center',
     color: '#ffffff',
+    marginTop: 26,
     marginLeft: 34,
     marginRight: 34
   },
-  toolbar: {
-    backgroundColor: '#ffffff',
-    height: 56,
-    alignSelf: 'stretch'
-  },
   searchbar: {
     backgroundColor: '#ffffff',
-    margin: 20
+    marginTop: 29,
+    marginLeft: 24,
+    marginRight: 24
+  },
+  boxContainer: {
+    flex: 1
+  },
+  item:{
+    flex: 2,
+    flexDirection: "row"
   }
 });
 
