@@ -16,19 +16,12 @@ import {
   ImageBackground,
   View,
   ActivityIndicator,
-  FlatList
+  Image,
+  ScrollView
 } from 'react-native';
-import { Header, SearchBar, Card } from 'react-native-elements';
+import { SearchBar, Card } from 'react-native-elements';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
-
-type Props = {};
-export default class App extends Component<Props> {
+export default class App extends Component {
 
   constructor(props) {
     super(props)
@@ -60,13 +53,22 @@ export default class App extends Component<Props> {
     if(this.state.isLoading)
     {
       return(
-        <View style={styles.container}>
+        <View style={styles.loader}>
           <ActivityIndicator/>
         </View>
       )
     }
     else
     {
+      let flowers = this.state.dataSource.map((val, key) => {
+        //let profilePicture = 'https' + val.profile_picture;
+        return  <View key={key}>
+        <Image style={styles.image} source={{uri: 'https:'+val.profile_picture}}>
+        
+        </Image>
+        </View>
+      });
+
       return (
         <View style={styles.container}>
           <StatusBar backgroundColor="#e09186" animated={true} />
@@ -92,13 +94,9 @@ export default class App extends Component<Props> {
                 placeholder='Looking for something specific?' />
           </ImageBackground>
           <View style={styles.boxContainer}>
-            <FlatList
-              data={this.state.dataSource}
-              renderItem={
-                ({item}) => <Text style={styles.item}>{item.name}, {item.latin_name}, {item.sightings}</Text>
-              }
-              keyExtractor={(item, index) => index}
-              />
+            <ScrollView style={styles.scroll}>
+              {flowers}
+            </ScrollView>
           </View>
         </View>
       );
@@ -114,6 +112,10 @@ export default class App extends Component<Props> {
 }
 
 const styles = StyleSheet.create({
+  loader:{
+    flex: 1,
+    justifyContent: "center"
+  },
   toolbar: {
     backgroundColor: '#ffffff',
     height: 45,
@@ -156,9 +158,17 @@ const styles = StyleSheet.create({
   boxContainer: {
     flex: 1
   },
+  scroll:{
+    flex: 1,
+    flexDirection: "column"
+  },
   item:{
     flex: 2,
-    flexDirection: "row"
+    flexDirection: "column"
+  },
+  image:{
+    width: 160,
+    height: 203
   }
 });
 
