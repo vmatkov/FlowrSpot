@@ -8,7 +8,6 @@
 
 import React, {Component} from 'react';
 import {
-  Platform,
   StyleSheet,
   Text,
   StatusBar,
@@ -16,10 +15,9 @@ import {
   ImageBackground,
   View,
   ActivityIndicator,
-  Image,
   ScrollView
 } from 'react-native';
-import { SearchBar, Card } from 'react-native-elements';
+import { SearchBar } from 'react-native-elements';
 
 export default class App extends Component {
 
@@ -66,7 +64,7 @@ export default class App extends Component {
         <ImageBackground style={styles.image} source={{uri: 'https:'+val.profile_picture}}>
         <Text style={styles.item}>{val.name}</Text>
         <Text style={[styles.subItem, {marginTop: 9, fontFamily: 'Ubuntu-Italic'}]}>{val.latin_name}</Text>
-        <Text style={[styles.subItem, {marginTop: 21.2, fontFamily: 'Ubuntu-Regular'}]}>{val.sightings} sightings</Text>
+        <Text style={[styles.subItem, {marginTop: 9, fontFamily: 'Ubuntu-Regular'}]}>{val.sightings} sightings</Text>
         </ImageBackground>
         </View>
       });
@@ -84,18 +82,19 @@ export default class App extends Component {
                 {title: "About", show: "never"}
               ]}
           />
-          <ImageBackground
-            source={{uri: 'pl_hero'}}
-            style={styles.imageContainer}>
-            <Text style={styles.welcome}>Discover flowers around you</Text>
-            <Text style={styles.instructions}>Explore between more than 8.427 sightings</Text>
-            <SearchBar
-                round
-                style={styles.searchbar}              
-                //icon={{ type: 'FontAwesome', name: 'search' }}
-                placeholder='Looking for something specific?' />
-          </ImageBackground>
           <ScrollView style={styles.scroll}>
+            <ImageBackground
+              source={{uri: 'pl_hero'}}
+              style={styles.imageContainer}>
+              <Text style={styles.welcome}>Discover flowers around you</Text>
+              <Text style={styles.instructions}>Explore between more than 8.427 sightings</Text>
+              <SearchBar
+                  lightTheme
+                  containerStyle={styles.searchBar}
+                  inputStyle={styles.searchBarInput}
+                  icon={{ type: 'font-awesome', name: 'search' }}        
+                  placeholder='Looking for something specific?' />
+            </ImageBackground>
             <View style={styles.boxContainer}>
               {flowers}
             </View>
@@ -129,8 +128,8 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     flex: 1,
-    //width: 360,
-    //height: 315,
+    width: 360,
+    height: 315
     //justifyContent: 'space-around'
   },
   welcome: {
@@ -151,11 +150,16 @@ const styles = StyleSheet.create({
     marginLeft: 34,
     marginRight: 34
   },
-  searchbar: {
-    backgroundColor: '#ffffff',
+  searchBar: {
+    width: 312,
+    height: 48,
     marginTop: 29,
     marginLeft: 24,
     marginRight: 24
+  },
+  searchBarInput: {
+    fontFamily: 'Ubuntu-Light',
+    fontSize: 12
   },
   boxContainer: {
     flex: 1,
