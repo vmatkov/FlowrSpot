@@ -63,9 +63,11 @@ export default class App extends Component {
       let flowers = this.state.dataSource.map((val, key) => {
         //let profilePicture = 'https' + val.profile_picture;
         return  <View key={key}>
-        <Image style={styles.image} source={{uri: 'https:'+val.profile_picture}}>
-        
-        </Image>
+        <ImageBackground style={styles.image} source={{uri: 'https:'+val.profile_picture}}>
+        <Text style={styles.item}>{val.name}</Text>
+        <Text style={[styles.subItem, {marginTop: 9, fontFamily: 'Ubuntu-Italic'}]}>{val.latin_name}</Text>
+        <Text style={[styles.subItem, {marginTop: 21.2, fontFamily: 'Ubuntu-Regular'}]}>{val.sightings} sightings</Text>
+        </ImageBackground>
         </View>
       });
 
@@ -90,14 +92,14 @@ export default class App extends Component {
             <SearchBar
                 round
                 style={styles.searchbar}              
-                icon={{ type: 'FontAwesome', name: 'search' }}
+                //icon={{ type: 'FontAwesome', name: 'search' }}
                 placeholder='Looking for something specific?' />
           </ImageBackground>
-          <View style={styles.boxContainer}>
-            <ScrollView style={styles.scroll}>
+          <ScrollView style={styles.scroll}>
+            <View style={styles.boxContainer}>
               {flowers}
-            </ScrollView>
-          </View>
+            </View>
+          </ScrollView>
         </View>
       );
     }
@@ -156,19 +158,32 @@ const styles = StyleSheet.create({
     marginRight: 24
   },
   boxContainer: {
-    flex: 1
+    flex: 1,
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    justifyContent: 'space-around'
   },
   scroll:{
-    flex: 1,
-    flexDirection: "column"
+    flex: 1
   },
   item:{
-    flex: 2,
-    flexDirection: "column"
+    fontFamily: 'Ubuntu-Regular',
+    fontSize: 16,
+    marginTop: 117,
+    color: '#ffffff',
+    backgroundColor: 'transparent'
+  },
+  subItem:{
+    fontSize: 9.6,
+    color: '#ffffff',
+    backgroundColor: 'transparent'
   },
   image:{
     width: 160,
-    height: 203
+    height: 203,
+    marginTop: 12,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 
