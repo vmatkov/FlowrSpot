@@ -18,6 +18,7 @@ import {
   ScrollView
 } from 'react-native';
 import { SearchBar } from 'react-native-elements';
+import _ from 'lodash';
 
 export default class App extends Component {
 
@@ -29,24 +30,58 @@ export default class App extends Component {
     }
   }
 
-  componentDidMount(){
-    
+  contains = ({name, latin_name}, query) => {
+    let name_lower = name.toLowerCase();
+    let latin_lower = latin_name.toLowerCase();
+    if( name_lower.includes(query) || latin_lower.includes(query)) return true;
+    return false;
+  }
+
+  componentDidMount () {
+    this.makeRemoteRequest();
+  }
+
+  makeRemoteRequest = _.debounce(() => {
     let req = new Request('http://flowrspot-api.herokuapp.com/api/v1/flowers');
     return fetch(req)
       .then( (response) => response.json() )
       .then( (responseJson) => {
           this.setState({
             isLoading: false,
-            dataSource: responseJson.flowers
+            dataSource: responseJson.flowers,
+            query: "",
+            fullData: responseJson.flowers
           })
       })
       .catch((error) => {
         console.log(error)
       });
+  }, 250);
+
+  onTextChange = (text) => {
+    const formatQuery = text.toLowerCase();
+    const dataSource = _.filter(this.state.fullData, flower => {
+      return this.contains(flower, formatQuery);
+    })
+    let a = 0;
+    this.setState({query: formatQuery, dataSource});
+    console.log("text: ", formatQuery);
   }
 
+  getFlowers = (data) => {
+    return data.map((val, key) => {
+      let profilePicture = 'https:' + val.profile_picture;
+      return  <View key={key}>
+      <ImageBackground style={styles.image} source={{uri: profilePicture}}>
+      <Text style={styles.item}>{val.name}</Text>
+      <Text style={[styles.subItem, {marginTop: 9, fontFamily: 'Ubuntu-Italic'}]}>{val.latin_name}</Text>
+      <Text style={[styles.subItem, {marginTop: 9, fontFamily: 'Ubuntu-Regular'}]}>{val.sightings} sightings</Text>
+      </ImageBackground>
+      </View>
+    });
+  }
 
-  render() {
+  render () {
 
     if(this.state.isLoading)
     {
@@ -58,16 +93,8 @@ export default class App extends Component {
     }
     else
     {
-      let flowers = this.state.dataSource.map((val, key) => {
-        //let profilePicture = 'https' + val.profile_picture;
-        return  <View key={key}>
-        <ImageBackground style={styles.image} source={{uri: 'https:'+val.profile_picture}}>
-        <Text style={styles.item}>{val.name}</Text>
-        <Text style={[styles.subItem, {marginTop: 9, fontFamily: 'Ubuntu-Italic'}]}>{val.latin_name}</Text>
-        <Text style={[styles.subItem, {marginTop: 9, fontFamily: 'Ubuntu-Regular'}]}>{val.sightings} sightings</Text>
-        </ImageBackground>
-        </View>
-      });
+
+      let flowers = this.getFlowers(this.state.dataSource);
 
       return (
         <View style={styles.container}>
@@ -90,6 +117,7 @@ export default class App extends Component {
               <Text style={styles.instructions}>Explore between more than 8.427 sightings</Text>
               <SearchBar
                   lightTheme
+                  onChangeText={this.onTextChange}
                   containerStyle={styles.searchBar}
                   inputStyle={styles.searchBarInput}
                   icon={{ type: 'font-awesome', name: 'search' }}        
