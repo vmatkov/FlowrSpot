@@ -15,7 +15,9 @@ import {
   ImageBackground,
   View,
   ActivityIndicator,
-  ScrollView
+  ScrollView,
+  TouchableOpacity,
+  Image
 } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import _ from 'lodash';
@@ -72,7 +74,7 @@ export default class App extends Component {
     return data.map((val, key) => {
       let profilePicture = 'https:' + val.profile_picture;
       return  <View key={key}>
-      <ImageBackground style={styles.image} source={{uri: profilePicture}}>
+      <ImageBackground style={styles.image} imageStyle={{ borderRadius: 3 }} source={{uri: profilePicture}}>
       <Text style={styles.item}>{val.name}</Text>
       <Text style={[styles.subItem, {marginTop: 9, fontFamily: 'Ubuntu-Italic'}]}>{val.latin_name}</Text>
       <Text style={[styles.subItem, {marginTop: 9, fontFamily: 'Ubuntu-Regular'}]}>{val.sightings} sightings</Text>
@@ -127,6 +129,20 @@ export default class App extends Component {
               {flowers}
             </View>
           </ScrollView>
+          <View style={styles.footer}>
+            <TouchableOpacity style={styles.button} onPress={()=>{alert("Favorites")}}>
+              <Image source={require('./android/app/src/main/res/drawable-mdpi/favorites_icons.png')}/>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={()=>{alert("Comment")}}>
+              <Image source={require('./android/app/src/main/res/drawable-mdpi/comment_icon.png')}/>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={()=>{alert("New Sighting")}}>
+              <Image source={require('./android/app/src/main/res/drawable-mdpi/new_sighting_icon.png')}/>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={()=>{alert("Sighting List")}}>
+              <Image source={require('./android/app/src/main/res/drawable-mdpi/sighting_list_icon.png')}/>
+            </TouchableOpacity>
+          </View>
         </View>
       );
     }
@@ -152,7 +168,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    flexDirection: "column"
+    flexDirection: "column",
+    backgroundColor: '#f1f1f1'
   },
   imageContainer: {
     flex: 1,
@@ -216,7 +233,23 @@ const styles = StyleSheet.create({
     marginTop: 12,
     justifyContent: 'center',
     alignItems: 'center'
-  }
+  },
+  footer: {
+    height: 49,
+    marginTop: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-around'
+  },
+  // button: {
+  //   backgroundColor: '#859a9b',
+  //   borderRadius: 20,
+  //   padding: 10,
+  //   marginBottom: 20,
+  //   shadowColor: '#303838',
+  //   shadowOffset: { width: 0, height: 5 },
+  //   shadowRadius: 10,
+  //   shadowOpacity: 0.35,
+  // }
 });
 
  // adb shell input keyevent 82
