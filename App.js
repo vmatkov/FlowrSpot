@@ -9,6 +9,7 @@
 import React, {Component} from 'react';
 import {
   StyleSheet,
+  KeyboardAvoidingView,
   Text,
   StatusBar,
   ToolbarAndroid,
@@ -74,7 +75,7 @@ export default class App extends Component {
     return data.map((val, key) => {
       let profilePicture = 'https:' + val.profile_picture;
       return  <View key={key}>
-      <ImageBackground style={styles.image} imageStyle={{ borderRadius: 3 }} source={{uri: profilePicture}}>
+      <ImageBackground style={styles.image} imageStyle={{ borderRadius: 2.4 }} source={{uri: profilePicture}}>
       <Text style={styles.item}>{val.name}</Text>
       <Text style={[styles.subItem, {marginTop: 9, fontFamily: 'Ubuntu-Italic'}]}>{val.latin_name}</Text>
       <Text style={[styles.subItem, {marginTop: 9, fontFamily: 'Ubuntu-Regular'}]}>{val.sightings} sightings</Text>
@@ -99,6 +100,7 @@ export default class App extends Component {
       let flowers = this.getFlowers(this.state.dataSource);
 
       return (
+
         <View style={styles.container}>
           <StatusBar backgroundColor="#e09186" animated={true} />
           <ToolbarAndroid
@@ -108,21 +110,23 @@ export default class App extends Component {
               //onActionSelected={this.onActionSelected}
               titleColor= "#e09186"
               actions = {[
-                {title: "About", show: "never"}
+                {title: "Login", show: "never"},
+                {title: "Create an Account", show: "never"}
               ]}
           />
-          <ScrollView style={styles.scroll}>
+          <ScrollView bouncesZoom style={styles.scroll}>
             <ImageBackground
               source={{uri: 'pl_hero'}}
               style={styles.imageContainer}>
               <Text style={styles.welcome}>Discover flowers around you</Text>
               <Text style={styles.instructions}>Explore between more than 8.427 sightings</Text>
               <SearchBar
-                  lightTheme
+                  platform="android"
                   onChangeText={this.onTextChange}
                   containerStyle={styles.searchBar}
                   inputStyle={styles.searchBarInput}
-                  icon={{ type: 'font-awesome', name: 'search' }}        
+                  icon={{ type: 'font-awesome', name: 'search' }}
+                  cancelIcon={{ type: 'font-awesome', name: 'chevron-left' }}
                   placeholder='Looking for something specific?' />
             </ImageBackground>
             <View style={styles.boxContainer}>
@@ -130,17 +134,17 @@ export default class App extends Component {
             </View>
           </ScrollView>
           <View style={styles.footer}>
-            <TouchableOpacity style={styles.button} onPress={()=>{alert("Favorites")}}>
-              <Image source={require('./android/app/src/main/res/drawable-mdpi/favorites_icons.png')}/>
+            <TouchableOpacity onPress={()=>{alert("Favorites")}}>
+              <Image style={styles.button} source={{uri: 'favorites_icons'}}/>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={()=>{alert("Comment")}}>
-              <Image source={require('./android/app/src/main/res/drawable-mdpi/comment_icon.png')}/>
+            <TouchableOpacity onPress={()=>{alert("Comment")}}>
+              <Image style={styles.button} source={{uri: 'comment_icon'}}/>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={()=>{alert("New Sighting")}}>
-              <Image source={require('./android/app/src/main/res/drawable-mdpi/new_sighting_icon.png')}/>
+            <TouchableOpacity onPress={()=>{alert("New Sighting")}}>
+              <Image style={styles.button} source={{uri: 'new_sighting_icon'}}/>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={()=>{alert("Sighting List")}}>
-              <Image source={require('./android/app/src/main/res/drawable-mdpi/sighting_list_icon.png')}/>
+            <TouchableOpacity onPress={()=>{alert("Sighting List")}}>
+              <Image style={styles.button} source={{uri: 'sighting_list_icon'}}/>
             </TouchableOpacity>
           </View>
         </View>
@@ -196,6 +200,9 @@ const styles = StyleSheet.create({
     marginRight: 34
   },
   searchBar: {
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderRadius: 3,
     width: 312,
     height: 48,
     marginTop: 29,
@@ -204,7 +211,7 @@ const styles = StyleSheet.create({
   },
   searchBarInput: {
     fontFamily: 'Ubuntu-Light',
-    fontSize: 12
+    fontSize: 14
   },
   boxContainer: {
     flex: 1,
@@ -236,20 +243,14 @@ const styles = StyleSheet.create({
   },
   footer: {
     height: 49,
-    marginTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-around'
   },
-  // button: {
-  //   backgroundColor: '#859a9b',
-  //   borderRadius: 20,
-  //   padding: 10,
-  //   marginBottom: 20,
-  //   shadowColor: '#303838',
-  //   shadowOffset: { width: 0, height: 5 },
-  //   shadowRadius: 10,
-  //   shadowOpacity: 0.35,
-  // }
+  button: {
+    marginTop: 10,
+    width: 30,
+    height: 30
+  }
 });
 
  // adb shell input keyevent 82
