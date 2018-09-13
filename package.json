@@ -9,6 +9,7 @@
   "dependencies": {
     "@babel/core": "^7.0.0-beta.47",
     "babel-core": "^7.0.0-beta.47",
+    "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.17.10",
     "react": "16.4.1",
     "react-native": "0.56.0",
