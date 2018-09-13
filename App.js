@@ -9,7 +9,6 @@
 import React, {Component} from 'react';
 import {
   StyleSheet,
-  KeyboardAvoidingView,
   Text,
   StatusBar,
   ToolbarAndroid,
