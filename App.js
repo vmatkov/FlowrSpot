@@ -28,7 +28,9 @@ export default class App extends Component {
     super(props)
     this.state = {
       isLoading: true,
-      dataSource: null
+      dataSource: null,
+      query: "",
+      fullData: null
     }
   }
 
